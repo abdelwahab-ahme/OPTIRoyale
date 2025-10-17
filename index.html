@@ -19,21 +19,38 @@
       --max-width: 1200px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Montserrat', 'Cairo', sans-serif;
-      color: var(--accent);
-      background-color: #fff;
-      scroll-behavior: smooth;
-    }
+  margin: 0;
+  font-family: 'Montserrat', 'Cairo', sans-serif;
+  color: var(--accent);
+  background-image: url(./static/sun\ glass.webp);
+  
+  background-position: center;
+  background-size: cover; /* تملأ الشاشة */
+  background-attachment: fixed;
+  image-rendering: -webkit-optimize-contrast; /* تحسن الجودة */
+  scroll-behavior: smooth;
+}
+
+/* للموبايل */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll; /* لتجنب بطء التمرير */
+    background-size: contain; /* تظهر الصورة كاملة */
+    background-position: top center;
+  }
+}
+
+
 
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 60;
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(10px);
-      padding: 12px 24px;
+      padding: 16px 36px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -45,27 +62,21 @@
       align-items: center;
       gap: 10px;
       font-weight: 800;
-      font-size: 18px;
     }
 
-    .logo img { width: 40px; height: 40px; }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    .logo img { width: 45px; height: 45px; }
 
     nav a {
       color: #fff;
       text-decoration: none;
+      margin-left: 16px;
       font-weight: 600;
       transition: 0.3s;
     }
     nav a:hover { color: var(--gold); }
 
     .btn {
-      padding: 8px 20px;
+      padding: 10px 24px;
       border-radius: 24px;
       background: var(--gold);
       color: #000;
@@ -75,102 +86,266 @@
     }
     .btn:hover { background: #ffd633; }
 
-    /* زر القائمة للموبايل */
-    .menu-toggle {
-      display: none;
-      font-size: 28px;
-      cursor: pointer;
-    }
-
     /* HERO */
     .hero {
-      height: 90vh;
+      height: 85vh;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+      overflow: hidden;
       color: #fff;
-      text-align: center;
-      background: url('./static/sun glass.webp') center/cover no-repeat;
     }
-    .hero::after {
-      content: "";
+
+    .hero .bg {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: url('./sun_glass.webp') center/cover no-repeat;
+      filter: brightness(0.45);
     }
+
+    .hero .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+    }
+
     .hero .content {
       position: relative;
       z-index: 2;
+      text-align: center;
       max-width: 700px;
-      padding: 0 20px;
     }
-    .hero h1 { font-size: 42px; margin-bottom: 12px; }
+
+    .hero h1 { font-size: 48px; margin-bottom: 18px; }
+
+    .wave svg { display: block; width: 100%; background-color: hsla(0, 0%, 0%, 0.37); }
+
+    /* CART */
+    .cart-btn {
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      background: var(--gold);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    .cart-dropdown {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 15px;
+      display: none;
+      min-width: 230px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.15);
+    }
+
+    .cart-dropdown.active { display: block; }
+    .cart-item { display: flex; justify-content: space-between; margin: 5px 0; }
+
+    .remove-btn {
+      background: red;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 2px 6px;
+    }
 
     /* PRODUCTS */
     section.products {
-      background: var(--bg);
+      background: #f6c94a;
       color: #fff;
       padding: 60px 20px;
       text-align: center;
     }
 
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      justify-content: center;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .product {
-      background: rgba(255,255,255,0.1);
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-    }
-
-    .product img { width: 100%; border-radius: 10px; }
-    .product h3 { color: #ffcc00; margin: 10px 0 5px; }
-    .price { color: #00e676; font-weight: bold; margin-bottom: 10px; }
-
-    .product button {
-      background: #000;
+    .tabs { margin-bottom: 25px; }
+    .tab {
+      background: #222;
       color: #fff;
       border: none;
-      border-radius: 10px;
-      padding: 8px 12px;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: 600;
+      transition: 0.3s;
     }
-    .product button:hover { background: #fff; color: #000; }
+    .tab.active, .tab:hover {
+      background: #ffcc00;
+      color: #000;
+    }
+/* تعديل السلايدر والأزرار */
+.product-slider {
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  margin: auto;
+  padding: 0 40px; /* مساحة للأزرار */
+}
 
-    /* CONTACT */
+.product-grid {
+  display: flex;
+  transition: transform 0.5s ease;
+  gap: 25px;
+  flex-wrap: nowrap;
+}
+
+.product {
+  background: rgba(255,255,255,0.1);
+  border-radius: 15px;
+  padding: 15px;
+  width: 220px;
+  flex-shrink: 0;
+  text-align: center;
+  transition: transform 0.3s;
+}
+.product img {
+  width: 100%;
+  height: 220px; /* ارتفاع ثابت */
+  object-fit: cover; /* يحافظ على التناسق بدون تمدد */
+  border-radius: 15px; /* نفس انحناء البوكس */
+  display: block;
+  margin: 0 auto;
+}
+
+.product:hover {
+  transform: scale(1.05);
+}
+
+/* أزرار السلايدر */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: 0.3s;
+}
+.arrow:hover {
+  background: rgba(0,0,0,0.8);
+}
+.arrow.left { left: 10px; }
+.arrow.right { right: 10px; }
+
+/* لجعلها متجاوبة على الموبايل */
+@media (max-width: 992px) {
+  .product-grid {
+    gap: 15px;
+  }
+  .product {
+    width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product {
+    width: 160px;
+  }
+  .arrow {
+    font-size: 24px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-grid {
+    gap: 10px;
+  }
+  .product {
+    width: 140px;
+    padding: 10px;
+  }
+  .arrow {
+    font-size: 20px;
+    padding: 6px 8px;
+  }
+}
+@media (max-width: 768px) {
+  .product img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product img {
+    height: 150px;
+  }
+}
+
+
+    /* تواصل معنا */
     #contact-section {
       background: #f6c94a;
-      padding: 60px 20px;
+      padding: 70px 20px;
+      display: flex;
+      justify-content: center;
     }
 
     .contact-container {
       display: flex;
       flex-wrap: wrap;
       gap: 40px;
-      align-items: flex-start;
+      align-items: stretch;
       justify-content: space-between;
       max-width: 1100px;
-      margin: auto;
+      width: 100%;
     }
 
-    .contact-left, .contact-right {
+    .contact-left {
       flex: 1;
-      min-width: 300px;
+      min-width: 280px;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-left h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .contact-left p {
+      line-height: 1.7;
+      margin-bottom: 25px;
+      max-width: 420px;
+    }
+
+    .contact-left a {
+      background: #fff;
+      color: #000;
+      padding: 12px 28px;
+      border-radius: 25px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.3s;
+    }
+
+    .contact-left a:hover {
+      background: #000;
+      color: #fff;
     }
 
     .contact-right {
+      flex: 1;
+      min-width: 320px;
       background: #fff;
       border-radius: 20px;
-      padding: 30px;
+      padding: 40px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       text-align: right;
       direction: rtl;
@@ -178,8 +353,15 @@
 
     .contact-right h2 {
       color: #f6c94a;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-weight: 700;
+    }
+
+    .contact-right label {
+      color: #f6c94a;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
     }
 
     .contact-right input,
@@ -192,53 +374,105 @@
       font-family: 'Cairo', sans-serif;
     }
 
+    .contact-right textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .contact-right button {
+      background: #f6c94a;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .contact-right button:hover {
+      background: #ffdd66;
+    }
+
     footer {
       background: #000;
       color: #fff;
       text-align: center;
       padding: 20px 0;
     }
+    /* تنسيق الشريط */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    /* 📱 MEDIA QUERIES */
-    @media (max-width: 900px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        background: rgba(0,0,0,0.9);
-        padding: 15px;
-        border-radius: 10px;
-      }
-      nav.active { display: flex; }
+  padding: 15px 25px;
+  position: relative;
+  z-index: 100;
+}
 
-      .menu-toggle { display: block; }
+/* الروابط */
+.navbar nav {
+  display: flex;
+  gap: 20px;
+}
 
-      header {
-        padding: 10px 16px;
-      }
+.navbar nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
 
-      .hero h1 { font-size: 32px; }
-      .hero p { font-size: 16px; }
+.navbar nav a:hover {
+  color: var(--gold);
+}
 
-      .contact-container {
-        flex-direction: column;
-        text-align: center;
-      }
+/* زر Book Now */
+.navbar .btn {
+  background: var(--gold);
+  padding: 8px 14px;
+  border-radius: 25px;
+  color: #000;
+  font-weight: bold;
+}
 
-      .contact-right {
-        text-align: center;
-        direction: ltr;
-      }
-    }
+/* زر القائمة (الهامبورجر) */
+.menu-icon {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+}
 
-    @media (max-width: 500px) {
-      .hero h1 { font-size: 26px; }
-      .btn { padding: 6px 16px; font-size: 14px; }
-      .product-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-      header .logo span { display: none; } /* يخفي النص بجانب اللوجو لتوفير مساحة */
-    }
+/* في الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .navbar nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #000;
+    width: 100%;
+    padding: 15px 0;
+  }
+
+  .navbar nav.show {
+    display: flex;
+  }
+
+  .navbar nav a {
+    padding: 10px;
+    text-align: center;
+  }
+}
+
   </style>
 </head>
 
@@ -248,62 +482,429 @@
       <img src="./static/لوجو2.png" alt="logo">
       <span>OptiRoyale</span>
     </div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <nav id="navMenu">
-      <a href="#services">Services</a>
-      <a href="#products">Shop</a>
-      <a href="#about">About</a>
-      <a href="#contact-section">Contact</a>
-      <a href="#contact-section" class="btn">Book Now</a>
-    </nav>
+    <div class="navbar">
+      <div class="menu-icon" id="menuIcon">☰</div>
+      <nav id="navbarMenu">
+        <a href="#services">Services</a>
+        <a href="#products">Shop</a>
+        <a href="#about">About</a>
+        <a href="#contact-section">Contact</a>
+        <a href="#contact-section" class="btn">Book Now</a>
+      </nav>
+    
+      <div style="position:relative">
+        <div class="cart-btn" id="cartBtn">🛒 السلة <span id="cartCount">0</span></div>
+        <div class="cart-dropdown" id="cartDropdown">
+          <ul id="cartList" style="list-style:none;padding:0;margin:0"></ul>
+          <p id="cartTotal">الإجمالي: 0 جنيه</p>
+        </div>
+      </div>
+    </div>
+    
   </header>
 
-  <section class="hero">
-    <div class="content">
-      <h1>Where Style Meets Vision</h1>
-      <p>Discover the perfect balance of innovation, comfort, and elegance with our premium eyewear collection.</p>
-      <a href="#products" class="btn">Shop Now</a>
-    </div>
-  </section>
-
-  <section id="products" class="products">
-    <h2>🕶️ نظاراتنا</h2>
-    <div class="product-grid">
-      <div class="product"><img src="./static/1.jpg"><h3>Classic Aviator</h3><span class="price">125 جنيه</span><button>إضافة للسلة</button></div>
-      <div class="product"><img src="./static/2.jpg"><h3>Modern Round</h3><span class="price">95 جنيه</span><button>إضافة للسلة</button></div>
-      <div class="product"><img src="./static/3.jpg"><h3>Sunset Shield</h3><span class="price">140 جنيه</span><button>إضافة للسلة</button></div>
-    </div>
-  </section>
-
-  <section id="contact-section">
-    <div class="contact-container">
-      <div class="contact-left">
-        <h2>Schedule your appointment</h2>
-        <p>Expertly transform your vision into reality with our bespoke eyewear services.</p>
-        <a href="#" class="btn">Contact Us</a>
+  <main>
+    <section class="hero">
+      <div class="bg"></div>
+      <div class="overlay"></div>
+      <div class="content">
+        <h1>Where Style Meets Vision</h1>
+        <p>Discover the perfect balance of innovation, comfort, and elegance with our premium eyewear collection.</p>
+        <a href="#products" class="btn">Shop Now</a>
       </div>
-      <div class="contact-right">
-        <h2>تواصل معنا</h2>
-        <form onsubmit="event.preventDefault(); alert('تم إرسال الرسالة ✅');">
-          <input type="text" placeholder="الاسم الكامل" required>
-          <input type="email" placeholder="البريد الإلكتروني" required>
-          <textarea placeholder="اكتب رسالتك هنا"></textarea>
-          <button type="submit" class="btn" style="width:100%">إرسال</button>
-        </form>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <p>OptiRoyale © <span id="year"></span> — Premium Eyewear</p>
-  </footer>
+    <div class="wave">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path fill="#f6c94a" d="M0,40 C200,120 400,0 720,40 C1050,80 1200,10 1440,50 L1440 120 L0 120 Z"></path>
+      </svg>
+    </div>
+
+    <section id="products" class="products">
+      <h2>🕶️ نظاراتنا</h2>
+      <div class="tabs">
+        <button class="tab active" onclick="filterProducts('all', event)">الكل</button>
+        <button class="tab" onclick="filterProducts('sun', event)">نظارات شمسية</button>
+        <button class="tab" onclick="filterProducts('vision', event)">نظارات نظر</button>
+      </div>
+
+      <div class="product-slider">
+        <button class="arrow left" onclick="slide(-1, 0)">&#10094;</button>
+        <div class="product-grid" id="slider">
+          <div class="product" data-category="sun">
+            <img src="./static/1.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/2.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/3.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/4.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/5.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/6.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/7.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/8.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/9.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/10.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/11.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/12.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/13.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/14.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/15.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/16.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/17.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/18.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/19.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/20.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/21.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/22.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/23.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/24.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/25.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/26.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/27.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/28.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/29.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/30.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/31.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/32.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/33.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/34.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+        </div>
+        <button class="arrow right" onclick="slide(1, 0)">&#10095;</button>
+      </div>
+      <br>
+      <div class="product-slider">
+        <button class="arrow left" onclick="slide(-1, 1)">&#10094;</button>
+        <div class="product-grid" id="slider">
+          <div class="product" data-category="sun">
+            <img src="./static/1.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="vision">
+            <img src="./static/2.jpg" alt="Modern Round">
+            <h3>Modern Round</h3>
+            <span class="price">95 جنيه</span>
+            <button onclick="addToCart('Modern Round',95)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/3.jpg" alt="Sunset Shield">
+            <h3>Sunset Shield</h3>
+            <span class="price">140 جنيه</span>
+            <button onclick="addToCart('Sunset Shield',140)">إضافة للسلة</button>
+          </div>
+          <div class="product" data-category="sun">
+            <img src="./static/4.jpg" alt="Classic Aviator">
+            <h3>Classic Aviator</h3>
+            <span class="price">125 جنيه</span>
+            <button onclick="addToCart('Classic Aviator',125)">إضافة للسلة</button>
+          </div>
+         
+        </div>
+        <button class="arrow right" onclick="slide(1, 1)">&#10095;</button>
+      </div>
+    </section>
+
+    <!-- تواصل معنا -->
+    <section id="contact-section">
+      <div class="contact-container">
+
+        <div class="contact-left">
+          <h2>Schedule your appointment</h2>
+          <p>Expertly transform your vision into reality with our bespoke eyewear services.
+            Schedule an appointment today to consult with our opticians and stylists.
+          </p>
+          <a href="#">Contact Us</a>
+        </div>
+
+        <div class="contact-right">
+          <h2>تواصل معنا</h2>
+          <form onsubmit="event.preventDefault(); alert('تم إرسال الرسالة بنجاح ✅');">
+            <div style="display:flex; gap:15px;">
+              <div style="flex:1;">
+                <label>الاسم الأول</label>
+                <input type="text" placeholder="أدخل الاسم الأول" required>
+              </div>
+              <div style="flex:1;">
+                <label>الاسم الآخر</label>
+                <input type="text" placeholder="أدخل الاسم الآخر" required>
+              </div>
+            </div>
+
+            <label>البريد الإلكتروني</label>
+            <input type="email" placeholder="example@email.com" required>
+
+            <label>الرسالة</label>
+            <textarea placeholder="...اكتب رسالتك هنا"></textarea>
+
+            <button type="submit">إرسال</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contact">
+      <p>OptiRoyale © <span id="year"></span> — Premium Eyewear & Services</p>
+    </footer>
+  </main>
 
   <script>
+    document.getElementById("menuIcon").addEventListener("click", function() {
+  document.getElementById("navbarMenu").classList.toggle("show");
+});
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    function toggleMenu() {
-      document.getElementById('navMenu').classList.toggle('active');
+    const cart = [];
+    const cartList = document.getElementById('cartList');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCount = document.getElementById('cartCount');
+    const cartDropdown = document.getElementById('cartDropdown');
+    const cartBtn = document.getElementById('cartBtn');
+
+    cartBtn.addEventListener('click', () => {
+      cartDropdown.classList.toggle('active');
+    });
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCart();
     }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      cartList.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, i) => {
+        const li = document.createElement('li');
+        li.className = 'cart-item';
+        li.innerHTML = `${item.name} - ${item.price} جنيه 
+        <button class="remove-btn" onclick="removeFromCart(${i})">X</button>`;
+        cartList.appendChild(li);
+        total += item.price;
+      });
+      cartTotal.textContent = `الإجمالي: ${total} جنيه`;
+      cartCount.textContent = cart.length;
+    }
+
+    // الفلترة
+    function filterProducts(category, event) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+
+      document.querySelectorAll('.product').forEach(p => {
+        p.style.display = (category === 'all' || p.dataset.category === category) ? 'block' : 'none';
+      });
+    }
+
+// السلايدر المعدل (لكل سلايدر على حدة)
+let slideIndices = [0, 0]; // لأن عندك سلايدرَين
+function slide(direction, index = 0) {
+  const sliders = document.querySelectorAll('.product-slider');
+  const slider = sliders[index].querySelector('.product-grid');
+  const items = slider.querySelectorAll('.product');
+  const itemWidth = items[0].offsetWidth + 25;
+  slideIndices[index] += direction;
+
+  if (slideIndices[index] < 0) slideIndices[index] = 0;
+  if (slideIndices[index] > items.length - 3) slideIndices[index] = items.length - 3;
+
+  slider.style.transform = `translateX(-${slideIndices[index] * itemWidth}px)`;
+}
+
+
+// إرسال البيانات
+document.getElementById('bookForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    email: document.getElementById('email').value,
+    type: document.getElementById('type').value,
+    date: document.getElementById('date').value
+  };
+
+  const res = await fetch('save_contact.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(formData)
+  });
+
+  const data = await res.json();
+  alert(data.message);
+  e.target.reset();
+});
+
   </script>
 </body>
 </html>

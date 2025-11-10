@@ -21,6 +21,7 @@
       border-collapse: collapse;
       background: white;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-top:20px;
     }
     th, td {
       border: 1px solid #ddd;
@@ -31,23 +32,88 @@
       background: #0078d4;
       color: white;
     }
+    /* نافذة تسجيل الدخول */
+    #login-container {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      background: rgba(0,0,0,0.1);
+    }
+    #login-box {
+      background:white;
+      padding:40px;
+      border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.2);
+      text-align:center;
+    }
+    #login-box input {
+      padding:10px;
+      margin:10px 0;
+      width:200px;
+      border-radius:5px;
+      border:1px solid #ccc;
+      font-size:1rem;
+    }
+    #login-box button {
+      padding:10px 20px;
+      margin-top:10px;
+      border:none;
+      border-radius:5px;
+      background:#0078d4;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    #login-box button:hover { background:#005a9e; }
+
   </style>
 </head>
 <body>
-  <h1>📬 الرسائل الواردة من نموذج التواصل</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>الاسم</th>
-        <th>البريد الإلكتروني</th>
-        <th>الرسالة</th>
-        <th>التاريخ</th>
-      </tr>
-    </thead>
-    <tbody id="messages"></tbody>
-  </table>
+
+  <!-- شاشة تسجيل الدخول -->
+  <div id="login-container">
+    <div id="login-box">
+      <h2>تسجيل الدخول</h2>
+      <input type="password" id="password" placeholder="كلمة المرور">
+      <button onclick="checkPassword()">دخول</button>
+      <p id="error" style="color:red; display:none;">كلمة المرور غير صحيحة!</p>
+    </div>
+  </div>
+
+  <!-- جدول الرسائل -->
+  <div id="messages-container" style="display:none;">
+    <h1>📬 الرسائل الواردة من نموذج التواصل</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>البريد الإلكتروني</th>
+          <th>الرسالة</th>
+          <th>التاريخ</th>
+        </tr>
+      </thead>
+      <tbody id="messages"></tbody>
+    </table>
+  </div>
 
   <script>
+    const correctPassword = "12345"; // ضع هنا كلمة المرور المطلوبة
+
+    function checkPassword() {
+      const pw = document.getElementById('password').value;
+      const error = document.getElementById('error');
+      if(pw === correctPassword) {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('messages-container').style.display = 'block';
+        loadMessages();
+      } else {
+        error.style.display = 'block';
+      }
+    }
+
     async function loadMessages() {
       const res = await fetch('/api/messages');
       const messages = await res.json();
@@ -61,7 +127,7 @@
         </tr>
       `).join('');
     }
-    loadMessages();
   </script>
+
 </body>
 </html>

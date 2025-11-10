@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم - الرسائل</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #0078d4;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>📬 الرسائل الواردة من نموذج التواصل</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>البريد الإلكتروني</th>
+        <th>الرسالة</th>
+        <th>التاريخ</th>
+      </tr>
+    </thead>
+    <tbody id="messages"></tbody>
+  </table>
+
+  <script>
+    async function loadMessages() {
+      const res = await fetch('/api/messages');
+      const messages = await res.json();
+      const tbody = document.getElementById('messages');
+      tbody.innerHTML = messages.map(m => `
+        <tr>
+          <td>${m.firstName} ${m.lastName}</td>
+          <td>${m.email}</td>
+          <td>${m.message}</td>
+          <td>${new Date(m.date).toLocaleString()}</td>
+        </tr>
+      `).join('');
+    }
+    loadMessages();
+  </script>
+</body>
+</html>

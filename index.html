@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OptiRoyale - Eyewear Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #f7c46b;
+      --accent: #fff;
+      --card-bg: rgba(255, 255, 255, 0.25);
+      --card-shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; margin:0; padding:0; }
+
+    body {
+      font-family: 'Montserrat', 'Cairo', sans-serif;
+      color: var(--accent);
+      background-image: url(./public/static/sun\ glass.webp);
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      position: fixed;
+      top:0; left:0; right:0;
+      z-index:100;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 36px;
+      color: #fff;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap:10px;
+      font-weight:800;
+    }
+
+    .logo img { width:45px; height:45px; }
+
+    nav a {
+      color:#fff;
+      text-decoration:none;
+      margin-left:16px;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    .btn {
+      padding: 10px 24px;
+      border-radius: 24px;
+      background: var(--gold);
+      color: #000;
+      font-weight: bold;
+      text-decoration:none;
+      transition:0.3s;
+    }
+
+    .btn:hover { background:#ffd633; }
+
+    /* ترحيب */
+    #welcome {
+      text-align:center;
+      padding:120px 20px 60px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    #welcome h1 {
+      font-size:2.5rem;
+      margin-bottom:10px;
+    }
+
+    #welcome p {
+      font-size:1.2rem;
+      color:#fff;
+    }
+
+    /* أيقونات التواصل */
+    #social {
+      text-align:center;
+      padding:30px 20px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+      margin: 0 auto;
+    }
+
+    #social h3 {
+      margin-bottom:15px;
+      font-size:1.5rem;
+      color: #fff;
+    }
+
+    #social a img {
+      width:50px;
+      height:50px;
+      margin:0 10px;
+      transition: transform 0.3s;
+    }
+
+    #social a img:hover {
+      transform: scale(1.2);
+    }
+
+    /* كروت الحسابات */
+    #accounts {
+      display:flex;
+      justify-content:center;
+      gap:40px;
+      flex-wrap:wrap;
+      padding:60px 20px;
+    }
+
+    .account-card {
+      background: var(--card-bg);
+      color:#fff;
+      padding:50px 20px;
+      width:220px;
+      border-radius:20px;
+      text-align:center;
+      box-shadow: 0 4px 20px var(--card-shadow);
+      cursor:pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .account-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px var(--card-shadow);
+    }
+
+    .account-card h2 {
+      font-size:1.8rem;
+      margin-bottom:10px;
+    }
+
+    footer {
+      background:#000;
+      color:#fff;
+      text-align:center;
+      padding:20px 0;
+    }
+
+    /* متجاوب */
+    @media (max-width:768px) {
+      #accounts { flex-direction: column; align-items:center; }
+      .account-card { width:80%; margin-bottom:20px; }
+      #welcome h1 { font-size:2rem; }
+      #welcome p { font-size:1rem; }
+      #social a img { width:40px; height:40px; }
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="./public/static/لوجو2.png" alt="logo">
+      <span>OptiRoyale</span>
+    </div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#products">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact-section">Contact</a>
+      <a href="#contact-section" class="btn">Book Now</a>
+    </nav>
+  </header>
+
+  <!-- ترحيب المستخدم -->
+  <section id="welcome">
+    <h1>مرحباً بك في OptiRoyale</h1>
+    <p>اختر نوع الحساب للمتابعة</p>
+  </section>
+
+
+
+  <!-- كروت User و Admin -->
+  <section id="accounts">
+    <div class="account-card" onclick="location.href='public/index.html'">
+      <h2>User</h2>
+    </div>
+    <div class="account-card" onclick="location.href='public/admin.html'">
+      <h2>Admin</h2>
+    </div>
+  </section>
+  <footer id="contact" style="background:#000; color:#fff; text-align:center; padding:40px 20px;">
+    <p>OptiRoyale © <span id="year"></span> — Premium Eyewear & Services</p>
+    
+    <h3 style="margin-top:20px;">تواصل معنا</h3>
+    <div style="display:flex; justify-content:center; gap:15px; margin-top:10px;">
+      <a href="https://www.facebook.com/profile.php?id=61582243409149" target="_blank">
+        <img src="./public/icon/فيس.png" alt="Facebook" style="width:35px; height:35px;">
+      </a>
+      <a href="https://wa.me/201286865533" target="_blank">
+        <img src="./public/icon/وتس.png" alt="WhatsApp" style="width:35px; height:35px;">
+      </a>
+      <a href="https://x.com/Opti_Royale10?t=o__jeuunX823DTLuKOv5NA&s=09" target="_blank">
+        <img src="./public/icon/x.jpeg" alt="x" style="width:35px; height:35px;">
+      </a>
+      <a href="https://www.instagram.com/optiroyale?igsh=MWV5cXU2ZmJwaGF5Ng==" target="_blank">
+        <img src="./public/icon/انستا.jpeg" alt="Instagram" style="width:35px; height:35px;">
+      </a>
+    </div>
+  
+    <p style="margin-top:15px; font-size:0.9rem;">📧 info@optir royale.com | ☎ +20 128 686 5533</p>
+  </footer>
+  
+ 
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
